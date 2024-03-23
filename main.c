@@ -7,7 +7,7 @@
 int resistance;
 void addition();
 void subtraction();
-void multiplication();
+void multipLication();
 void division();
 void factorial();
 void modulus();
@@ -61,7 +61,7 @@ int Resistorcolorcode(int R)
         printf("Violet");
         break;
     case 8:
-        printf("Gray");
+        printf("Grey");
         break;
     case 9:
         printf("White");
@@ -95,7 +95,7 @@ int Resistorcolorcode(int R)
         printf("Violet");
         break;
     case 8:
-        printf("Gray");
+        printf("Grey");
         break;
     case 9:
         printf("White");
