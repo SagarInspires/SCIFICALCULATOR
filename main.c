@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
 #include <string.h>
 #include <stdlib.h>
 #define PI 3.1415
@@ -148,20 +149,41 @@ int Resistorcolorcode(int R)
 void decodeCapacitorColor(int band1, int band2, int multiplier, int tolerance)
 {
     // Array of colors corresponding to digit values
-    char *colors[] = {"Black", "Brown", "Red", "Orange", "Yellow", "Green", "Blue", "Violet", "Gray", "White"};
+    char *colors[] = {"Black", "Brown", "Red", "Orange", "Yellow", "Green", "Blue", "Violet", "Grey", "White"};
 
     // Printing the decoded values
     printf("Capacitor Value: %d%d * 10^%d Farad\n", band1, band2, multiplier);
     printf("Tolerance: %d%%\n", tolerance);
 }
 
+void Agecalculator(int current_date, int current_month, int current_year, int birth_date, int birth_month, int birth_year)
+{
+    int month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; // number of days in months
+    if (birth_date > current_date)
+    {
+        current_date += month[birth_month - 1];
+        current_month -= 1;
+    }
+    if (birth_month > current_month)
+    {
+        current_month += 12;
+        current_year -= 1;
+    }
+    int calculated_days = current_date - birth_date;
+    int calculated_months = current_month - birth_month;
+    int calculated_years = current_year - birth_year;
+
+    printf("\n Your Current Age is %d Years, %d Months, %d Days\n", calculated_years, calculated_months, calculated_days);
+    return;
+}
+// main function
 int main()
 {
 
     printf("WELCOME TO OUR PROJECT CREATED BY GROUP P14- SCI-FI-CALCULATOR\n We are \n 1. Nishanth Kumaran    ROLL NO: 2301PH12\n 2. MANISH KUMAR REDDY   ROLL NO:2301MC06\n 3. AWADHESH KUMAR SHARMA    ROLL NO: 2301ME63 \n 4. MITALI KUMARI   ROLL NO: 2301ME33\n 5. SAGAR KUMAR  ROLL NO: 2301MM28\n 6. LAKSH KUMAR SISODIYA   ROLL NO: 2302MC05\n  7. KIRAN KUMAR BOMMU  ROLL NO: 2302VL03\n 8. SARAVAN KUMAR NALLAPU  ROLL NO: 2302ST07\n 9. SONALI KUMARI  ROLL NO: 2301EC31\n 10. AFIFAH KHAN  ROLL NO: 2302CM06\n");
     printf("-------------------------------------------------\n");
     printf("-------------------------------------------------\n");
-    printf("Select the type of calculation you wish");
+    printf("Select the type of calculation you wish\t Enter 1 for Resistor color code\n Enter 2 for Capacitor Color code\n Enter 3 for AgeCalculation Feature\n Enter 4 for Adding two matrices1");
     // we can also do integration,differentiation,all type of calculation,
     //  age
 
@@ -171,7 +193,7 @@ int main()
 
     // Colors and their corresponding values
     int band1, band2, multiplier, tolerance;
-    char *colorNames[] = {"black", "brown", "red", "orange", "yellow", "green", "blue", "violet", "gray", "white"};
+    char *colorNames[] = {"black", "brown", "red", "orange", "yellow", "green", "blue", "violet", "grey", "white"};
     int colorValues[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     float multipliers[] = {0, 1, 2, 3, 4, 5, 6, 7};
     int toleranceValues[] = {20, 1, 2, 3, 4, 5, 6, 7, 8, 9}; // Tolerance values in percent
@@ -264,6 +286,25 @@ int main()
         }
         printf("\n");
     }
+
+    
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    // here we are getting local time from computer with date, month and year
+    int current_date = tm.tm_mday;
+    int current_month = tm.tm_mon + 1;
+    int current_year = tm.tm_year + 1900;
+    int birth_date, birth_month, birth_year;
+
+    printf("\n");
+    printf("\tWelcome to Age Calculator feature:-------------\n");
+    printf("Enter your birth date:");
+    scanf("%d", &birth_date);
+    printf("Enter your birth month:");
+    scanf("%d", &birth_month);
+    printf("Enter your birth year:");
+    scanf("%d", &birth_year);
+    Agecalculator(current_date, current_month, current_year, birth_date, birth_month, birth_year);
 
     return 0;
 }
