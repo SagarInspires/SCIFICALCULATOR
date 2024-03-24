@@ -38,7 +38,7 @@ int Resistorcolorcode(int R)
     }
     printf("The color code for the %d ohms resistance are:\n", resistance);
 
-    printf(" Digit 1: ");
+    printf("Digit 1:      ");
     switch (digit1)
     {
     case 0:
@@ -72,7 +72,7 @@ int Resistorcolorcode(int R)
         printf("White");
         break;
     }
-    printf("\nDigit 2: ");
+    printf("\nDigit 2:      ");
     switch (digit2)
     {
     case 0:
@@ -106,7 +106,7 @@ int Resistorcolorcode(int R)
         printf("White");
         break;
     }
-    printf("\nMultiplier: ");
+    printf("\nMultiplier:   ");
     switch (multiplier)
     {
     case 0:
