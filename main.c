@@ -6,6 +6,7 @@
 #define PI 3.1415
 
 int resistance;
+int MatrixOpn;
 void addition();
 void subtraction();
 void multipLication();
@@ -184,67 +185,122 @@ void Agecalculator(int birth_date, int birth_month, int birth_year)
     return;
 }
 
-void MatrixAddition(int m1rows, int m2rows, int m1cols, int m2cols)
+void MatrixOperations(int m1rows, int m2rows, int m1cols, int m2cols)
 {
     int **matrix1;
     int **matrix2;
     int **summatrix;
-    if ((m1rows == m2rows) && (m1cols == m2cols))
+    int **ProductMatrix;
+
+    matrix1 = (int **)malloc(m1rows * sizeof(int *));
+    for (int i = 0; i < m1rows; i++)
     {
+        matrix1[i] = (int *)malloc(m1cols * sizeof(int));
+    }
 
-        matrix1 = (int **)malloc(m1rows * sizeof(int *));
-        for (int i = 0; i < m1rows; i++)
-        {
-            matrix1[i] = (int *)malloc(m1cols * sizeof(int));
-        }
+    // Allocate memory for matrix2
+    matrix2 = (int **)malloc(m2rows * sizeof(int *));
+    for (int i = 0; i < m2rows; i++)
+    {
+        matrix2[i] = (int *)malloc(m2cols * sizeof(int));
+    }
 
-        // Allocate memory for matrix2
-        matrix2 = (int **)malloc(m2rows * sizeof(int *));
-        for (int i = 0; i < m2rows; i++)
-        {
-            matrix2[i] = (int *)malloc(m2cols * sizeof(int));
-        }
+    summatrix = (int **)malloc(m1rows * sizeof(int *));
+    for (int i = 0; i < m1rows; i++)
+    {
+        summatrix[i] = (int *)malloc(m1cols * sizeof(int));
+    }
 
-        summatrix = (int **)malloc(m1rows * sizeof(int *));
-        for (int i = 0; i < m1rows; i++)
+    ProductMatrix = (int **)malloc(m1rows * sizeof(int));
+    for (int i = 0; i < m1rows; i++)
+    {
+        ProductMatrix[i] = (int *)malloc(m2cols * sizeof(int));
+        for (int j = 0; j < m2cols; j++)
         {
-            summatrix[i] = (int *)malloc(m1cols * sizeof(int));
-        }
-
-        printf("Enter the matrix1\n");
-        for (int i = 0; i < m1rows; i++)
-        {
-            for (int j = 0; j < m1cols; j++)
-            {
-                scanf("%d", &matrix1[i][j]);
-            }
-        }
-        printf("Enter the matrix2\n");
-        for (int i = 0; i < m1rows; i++)
-        {
-            for (int j = 0; j < m1cols; j++)
-            {
-                scanf("%d", &matrix2[i][j]);
-            }
-        }
-        printf("\n");
-
-        printf("The resultant sum matrix is:\n");
-        for (int i = 0; i < m1rows; i++)
-        {
-            for (int j = 0; j < m1cols; j++)
-            {
-                summatrix[i][j] = matrix1[i][j] + matrix2[i][j];
-                printf("%d ", summatrix[i][j]);
-            }
-            printf("\n");
+            ProductMatrix[i][j] = 0;
         }
     }
-    else
+
+    printf("Enter the matrix1\n");
+    for (int i = 0; i < m1rows; i++)
     {
-        printf("INVALID INPUT! Rows and Cols of Both Matrices must be equal.\n");
+        for (int j = 0; j < m1cols; j++)
+        {
+            scanf("%d", &matrix1[i][j]);
+        }
     }
+    printf("Enter the matrix2\n");
+    for (int i = 0; i < m1rows; i++)
+    {
+        for (int j = 0; j < m1cols; j++)
+        {
+            scanf("%d", &matrix2[i][j]);
+        }
+    }
+    printf("\n");
+
+    printf("Enter 0 for Addition. 1 for Multiplication\n");
+    scanf("%d", &MatrixOpn);
+    switch (MatrixOpn)
+    {
+    case 0:
+        if ((m1rows == m2rows) && (m1cols == m2cols))
+        {
+            printf("The resultant sum matrix is:\n");
+            for (int i = 0; i < m1rows; i++)
+            {
+                for (int j = 0; j < m1cols; j++)
+                {
+                    summatrix[i][j] = matrix1[i][j] + matrix2[i][j];
+                    printf("%d ", summatrix[i][j]);
+                }
+                printf("\n");
+            }
+        }
+        else
+        {
+            printf("INVALID INPUT! Rows and Cols of Both Matrices must be equal.\n");
+        }
+        break;
+
+    case 1:
+        if (m1cols == m2rows)
+        {
+            printf("The Resultant Product Matrix of matrix 1 and matrix 2 is:\n");
+            for (int i = 0; i < m1rows; i++)
+            {
+                for (int j = 0; j < m2cols; j++)
+                {
+                    // WE ARE iniating each element of product array as 0 in dynamkic memory allocation declaration then addition of other sums,
+                    // as, in for loop. we must have to initialise with something , and zero here was better option as it is neutral thing we are initiating product ka 1st row element as zero because we have to take summation using for loop and initial value is required
+                    // for this. So, we take it zero as after adding with zero every element of product matrix will be exact as 0+X=X from real analysis
+
+                    for (int k = 0; k < m1cols; k++)
+                    { // multiplication r1c1+r2c2+r3c3.. will go upto times, the number of rows in 2nd matrix
+                        ProductMatrix[i][j] += matrix1[i][k] * matrix2[k][j];
+                    }
+
+                    printf("%d  ", ProductMatrix[i][j]); // \t  can also be used for space of 6 integers almost provides space in right direction of workspace in typing area
+                }
+
+                printf("\n");
+            }
+        }
+        else
+        {
+            printf("INVALID INPUT! Number of colums of matrix1 and number of rows of matrix2 not matched.\n");
+        }
+        break;
+    default:
+        printf("INVALID INPUT! Plz Amend and Try again\n");
+        break;
+    }
+    free(matrix1);
+    free(matrix2);
+    free(summatrix);
+    free(ProductMatrix);
 }
+
 // main function
 int main()
 {
@@ -261,12 +317,12 @@ int main()
     printf("WELCOME TO OUR PROJECT CREATED BY GROUP P14- SCI-FI-CALCULATOR\n We are \n 1. Nishanth Kumaran    ROLL NO: 2301PH12\n 2. MANISH KUMAR REDDY   ROLL NO:2301MC06\n 3. AWADHESH KUMAR SHARMA    ROLL NO: 2301ME63 \n 4. MITALI KUMARI   ROLL NO: 2301ME33\n 5. SAGAR KUMAR  ROLL NO: 2301MM28\n 6. LAKSH KUMAR SISODIYA   ROLL NO: 2302MC05\n  7. KIRAN KUMAR BOMMU  ROLL NO: 2302VL03\n 8. SARAVAN KUMAR NALLAPU  ROLL NO: 2302ST07\n 9. SONALI KUMARI  ROLL NO: 2301EC31\n 10. AFIFAH KHAN  ROLL NO: 2302CM06\n");
     printf("-------------------------------------------------\n");
     printf("-------------------------------------------------\n");
-    printf("Select the type of calculation you wish\n Enter 1 for Resistor color code\n Enter 2 for Capacitor Color code\n Enter 3 for AgeCalculation Feature\n Enter 4 for Adding two matrices\n");
+    printf("Select the type of calculation you wish\n Enter 1 for Resistor color code\n Enter 2 for Capacitor Color code\n Enter 3 for AgeCalculation Feature\n Enter 4 for Operating two matrices\n");
     // we can also do integration,differentiation,all type of calculation,
     //  age
     int option;
     scanf("%d", &option);
-    
+
     switch (option)
     {
 
@@ -319,7 +375,8 @@ int main()
         printf("Enter the number of rows,columns of matrix2\n");
         scanf("%d %d", &m2rows, &m2cols);
         // as we know only same dimension m x n matrices can be added, that is if m1=m2 and n1=n2 , then only matrices addition can be possible
-        MatrixAddition(m1rows, m2rows, m1cols, m2cols);
+        // For multiplication of Matrices, number of cols of 1st matrix must be equal to number of rows of 2nd matrix
+        MatrixOperations(m1rows, m2rows, m1cols, m2cols);
         break;
 
     case 3:
