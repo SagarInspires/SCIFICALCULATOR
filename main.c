@@ -25,7 +25,7 @@ int Resistorcolorcode(int R)
 {
     // getting the 1st digit
     int digit1 = R;
-    while (digit1 > 10)
+    while (digit1 >= 10)
     {
         digit1 /= 10;
     }
