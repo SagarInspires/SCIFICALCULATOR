@@ -1,10 +1,11 @@
 #include <stdio.h>
+#include <conio.h>
 #include <math.h>
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
 #define PI 3.1415
-
+#define SIZE 10
 int resistance;
 int MatrixOpn;
 void addition();
@@ -301,10 +302,23 @@ void MatrixOperations(int m1rows, int m2rows, int m1cols, int m2cols)
     free(ProductMatrix);
 }
 
+
+
+
 // main function
 int main()
 {
+    int sizeM;
+    int CGsum=0;
+    int Csum=0;
+    float GPA;
 
+    char *courses;
+    int *credits;
+    int *obtainedgrades;
+    int number; 
+    int sqmatrix[100][100];
+    
     int m1rows, m2rows, m1cols, m2cols;
     int birth_date, birth_month, birth_year;
     // Colors and their corresponding values
@@ -317,8 +331,8 @@ int main()
     printf("WELCOME TO OUR PROJECT CREATED BY GROUP P14- SCI-FI-CALCULATOR\n We are \n 1. Nishanth Kumaran    ROLL NO: 2301PH12\n 2. MANISH KUMAR REDDY   ROLL NO:2301MC06\n 3. AWADHESH KUMAR SHARMA    ROLL NO: 2301ME63 \n 4. MITALI KUMARI   ROLL NO: 2301ME33\n 5. SAGAR KUMAR  ROLL NO: 2301MM28\n 6. LAKSH KUMAR SISODIYA   ROLL NO: 2302MC05\n  7. KIRAN KUMAR BOMMU  ROLL NO: 2302VL03\n 8. SARAVAN KUMAR NALLAPU  ROLL NO: 2302ST07\n 9. SONALI KUMARI  ROLL NO: 2301EC31\n 10. AFIFAH KHAN  ROLL NO: 2302CM06\n");
     printf("-------------------------------------------------\n");
     printf("-------------------------------------------------\n");
-    printf("Select the type of calculation you wish\n Enter 1 for Resistor color code\n Enter 2 for Capacitor Color code\n Enter 3 for AgeCalculation Feature\n Enter 4 for Operating two matrices\n");
-    // we can also do integration,differentiation,all type of calculation,
+    printf("Select the type of calculation you wish\n Enter 1 for Resistor color code\n Enter 2 for Capacitor Color code\n Enter 3 for AgeCalculation Feature\n Enter 4 for Operating two matrices\n Enter 5 for Finding Determinant\n Enter 6 for GPA Calculation\n Option : ");
+    // we can also do integration,differentiation,all type of calculation, 
     //  age
     int option;
     scanf("%d", &option);
@@ -391,6 +405,54 @@ int main()
         scanf("%d", &birth_year);
         Agecalculator(birth_date, birth_month, birth_year);
         break;
+
+    case 5:
+        printf("Enter the size of the square matrix\n");
+        scanf("%d", &sizeM);
+        
+        break;
+
+    case 6:
+  // can we define new variables or array in side a switch case and use only those mentioned
+
+    printf("Enter the number of courses\n");
+    scanf("%d",&number);
+
+    courses=(char*)malloc(number * sizeof(char));
+    obtainedgrades=(int*)malloc(number * sizeof(int));
+    credits=(int*)malloc(number * sizeof(int));
+
+   printf("Enter the courses\n");
+    for(int i=0;i<number;i++)
+    {
+       scanf("%s",&courses[i]);
+    }
+
+printf("Enter the credits of respective subjects\n");
+    for(int i=0;i<number;i++)
+    {
+       scanf("%d",&credits[i]);
+       Csum = Csum+ credits[i] ;
+    }
+    printf("Sum of credits is %d.\n",Csum);
+    printf("____________________________________\n");
+    printf("____________________________________\n");
+    printf("Enter the respective obtained grades e.g. AA-10, AB-9, BB-8, BC-7, CC-6, CD-5, DD-4:\n");
+    for(int i=0;i<number;i++)
+    {
+       scanf("%d",&obtainedgrades[i]);
+       CGsum=CGsum+credits[i]*obtainedgrades[i];
+    }
+
+    printf("CG Sum is %d\n",CGsum);
+    GPA= CGsum/Csum;
+    printf("Hence, Your GPA is: %f\n",GPA);
+   
+   free(courses);
+   free(obtainedgrades);
+   free(credits);
+   break;
+
     default:
         printf("You have entered an Invalid Input.\n");
         break;
