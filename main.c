@@ -432,7 +432,7 @@ int main()
             scanf("%d", &credits[i]);
             Csum = Csum + credits[i];
         }
-        printf("Sum of credits is %d.\n", Csum);
+        printf("Sum of the credits is %d.\n", Csum);
         printf("____________________________________\n");
         printf("____________________________________\n");
         printf("Enter the respective obtained grades e.g. AA-10, AB-9, BB-8, BC-7, CC-6, CD-5, DD-4:\n");
