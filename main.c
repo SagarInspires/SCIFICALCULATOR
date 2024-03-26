@@ -428,7 +428,7 @@ int main()
         printf("Enter the credits of respective subjects\n");
         for (int i = 0; i < number; i++)
         {
-            printf("the credits for %c is:", courses[i]);
+            printf("The credits for %c is:", courses[i]);
             scanf("%d", &credits[i]);
             Csum = Csum + credits[i];
         }
