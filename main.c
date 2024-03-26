@@ -302,23 +302,20 @@ void MatrixOperations(int m1rows, int m2rows, int m1cols, int m2cols)
     free(ProductMatrix);
 }
 
-
-
-
 // main function
 int main()
 {
     int sizeM;
-    int CGsum=0;
-    int Csum=0;
+    int CGsum = 0;
+    int Csum = 0;
     float GPA;
 
     char *courses;
     int *credits;
     int *obtainedgrades;
-    int number; 
+    int number;
     int sqmatrix[100][100];
-    
+
     int m1rows, m2rows, m1cols, m2cols;
     int birth_date, birth_month, birth_year;
     // Colors and their corresponding values
@@ -332,7 +329,7 @@ int main()
     printf("-------------------------------------------------\n");
     printf("-------------------------------------------------\n");
     printf("Select the type of calculation you wish\n Enter 1 for Resistor color code\n Enter 2 for Capacitor Color code\n Enter 3 for AgeCalculation Feature\n Enter 4 for Operating two matrices\n Enter 5 for Finding Determinant\n Enter 6 for GPA Calculation\n Option : ");
-    // we can also do integration,differentiation,all type of calculation, 
+    // we can also do integration,differentiation,all type of calculation,
     //  age
     int option;
     scanf("%d", &option);
@@ -409,49 +406,50 @@ int main()
     case 5:
         printf("Enter the size of the square matrix\n");
         scanf("%d", &sizeM);
-        
+
         break;
 
     case 6:
-  // can we define new variables or array in side a switch case and use only those mentioned
+        // can we define new variables or array in side a switch case and use only those mentioned
 
-    printf("Enter the number of courses\n");
-    scanf("%d",&number);
+        printf("Enter the number of courses\n");
+        scanf("%d", &number);
 
-    courses=(char*)malloc(number * sizeof(char));
-    obtainedgrades=(int*)malloc(number * sizeof(int));
-    credits=(int*)malloc(number * sizeof(int));
+        courses = (char *)malloc(number * sizeof(char));
+        obtainedgrades = (int *)malloc(number * sizeof(int));
+        credits = (int *)malloc(number * sizeof(int));
 
-   printf("Enter the courses\n");
-    for(int i=0;i<number;i++)
-    {
-       scanf("%s",&courses[i]);
-    }
+        printf("Enter the courses\n");
+        for (int i = 0; i < number; i++)
+        {
+            scanf("%s", &courses[i]);
+        }
 
-printf("Enter the credits of respective subjects\n");
-    for(int i=0;i<number;i++)
-    {
-       scanf("%d",&credits[i]);
-       Csum = Csum+ credits[i] ;
-    }
-    printf("Sum of credits is %d.\n",Csum);
-    printf("____________________________________\n");
-    printf("____________________________________\n");
-    printf("Enter the respective obtained grades e.g. AA-10, AB-9, BB-8, BC-7, CC-6, CD-5, DD-4:\n");
-    for(int i=0;i<number;i++)
-    {
-       scanf("%d",&obtainedgrades[i]);
-       CGsum=CGsum+credits[i]*obtainedgrades[i];
-    }
+        printf("Enter the credits of respective subjects\n");
+        for (int i = 0; i < number; i++)
+        {
+            printf("The credits for %c is:", courses[i]);
+            scanf("%d", &credits[i]);
+            Csum = Csum + credits[i];
+        }
+        printf("Sum of credits is %d.\n", Csum);
+        printf("____________________________________\n");
+        printf("____________________________________\n");
+        printf("Enter the respective obtained grades e.g. AA-10, AB-9, BB-8, BC-7, CC-6, CD-5, DD-4:\n");
+        for (int i = 0; i < number; i++)
+        {
+            scanf("%d", &obtainedgrades[i]);
+            CGsum = CGsum + credits[i] * obtainedgrades[i];
+        }
 
-    printf("CG Sum is %d\n",CGsum);
-    GPA= CGsum/Csum;
-    printf("Hence, Your GPA is: %f\n",GPA);
-   
-   free(courses);
-   free(obtainedgrades);
-   free(credits);
-   break;
+        printf("CG Sum is %d\n", CGsum);
+        GPA = CGsum / Csum;
+        printf("Hence, Your GPA is: %f\n", GPA);
+
+        free(courses);
+        free(obtainedgrades);
+        free(credits);
+        break;
 
     default:
         printf("You have entered an Invalid Input.\n");
