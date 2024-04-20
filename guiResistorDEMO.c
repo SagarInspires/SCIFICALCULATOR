@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "server.h"
 
-#define HOST "0.0.0.0"
+#define HOST "0.0.0.0" // "localhost"
 #define PORT 5000
 #define DEBUG 0
 // In linux
