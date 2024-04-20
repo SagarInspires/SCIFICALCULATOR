@@ -1,13 +1,34 @@
 #include <stdio.h>
-#include <conio.h>
-#include <math.h>
+// #include <conio.h>
+// #include <math.h>
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #define PI 3.1415
 #define SIZE 10
+#define RED   "\x1B[31m"
+#define GRN   "\x1B[32m"
+#define YEL   "\x1B[33m"
+#define BLU   "\x1B[34m"
+#define MAG   "\x1B[35m"
+#define CYN   "\x1B[36m"
+#define WHT   "\x1B[37m"
+#define RESET "\x1B[0m"
+#define FOR(count) for (int i = 0; i < count; i++)
+#define DELnxn(arr, n) FOR(n) free(arr[i]); free(arr);
+#define INITnxn(arr, n) (int **)malloc(n * sizeof(int *)); FOR(n) arr[i] = (int *)malloc(n * sizeof(int));
 int resistance;
 int MatrixOpn;
+// double addition(double a, ...){
+//     va_list args;
+//     double sum = a;
+//     va_start(args, a);
+//     double arg;
+//     while ((arg = va_arg(args, double)) != 0) sum += arg;
+//     va_end(args);
+//     return sum;
+// }
 void addition();
 void subtraction();
 void multipLication();
@@ -23,6 +44,52 @@ void TAN();
 void SININV();
 void COSINV();
 void TANINV();
+
+// void _print_nxn(int **arr, int n){}
+void _print_mxn(int **arr, int m, int n){
+    printf("[");
+    FOR(m-1){
+        printf("[");
+        for (int j = 0; j < n-1; j++) printf("%d, ",arr[i][j]);
+        printf("%d]\n ", arr[i][n-1]);
+    }
+    printf("[");
+    for (int j = 0; j < n-1; j++) printf("%d, ",arr[n-1][j]);
+    printf("%d]]\n\n", arr[n-1][n-1]);
+}
+void _print_n(int *arr, int n){
+    printf("[");
+    FOR(n-1) printf("%d, ",arr[i]);
+    printf("%d]\n ", arr[n-1]);
+}
+// #define _print(arr, n, ...) _Generic((arr), \
+//     int *: _print_n, \
+//     int **: _Generic((n), \
+//         int: _print_nxn, \
+//         default: _print_mxn) \
+// )(arr, n, ##__VA_ARGS__)
+#define _print(arr, ...) _Generic(arr, int **: _print_mxn, int *: _print_n)(arr, __VA_ARGS__)
+
+int determinant(int **arr, int n){
+    int result=0;
+    if (n>=2){
+        FOR(n){
+            int **tmp;
+            int _n = n-1;
+            tmp = INITnxn(tmp, _n);
+            for (int j = 1; j < n; j++){
+                for (int k = 0; k < n; k++){
+                    if(i==k) continue;
+                    tmp[j-1][k-((i>k)?0:1)] = arr[j][k];
+                }
+            }
+            result += (determinant(tmp, _n)*arr[0][i])*((i%2)?-1:1);
+            DELnxn(tmp, _n);
+        }
+    }else result = arr[0][0];
+    return result;
+}
+
 
 int Resistorcolorcode(int R)
 {
@@ -325,10 +392,30 @@ int main()
     float multipliers[] = {0, 1, 2, 3, 4, 5, 6, 7};
     int toleranceValues[] = {20, 1, 2, 3, 4, 5, 6, 7, 8, 9}; // Tolerance values in percent
 
-    printf("WELCOME TO OUR PROJECT CREATED BY GROUP P14- SCI-FI-CALCULATOR\n We are \n 1. Nishanth Kumaran    ROLL NO: 2301PH12\n 2. MANISH KUMAR REDDY   ROLL NO:2301MC06\n 3. AWADHESH KUMAR SHARMA    ROLL NO: 2301ME63 \n 4. MITALI KUMARI   ROLL NO: 2301ME33\n 5. SAGAR KUMAR  ROLL NO: 2301MM28\n 6. LAKSH KUMAR SISODIYA   ROLL NO: 2302MC05\n  7. KIRAN KUMAR BOMMU  ROLL NO: 2302VL03\n 8. SARAVAN KUMAR NALLAPU  ROLL NO: 2302ST07\n 9. SONALI KUMARI  ROLL NO: 2301EC31\n 10. AFIFAH KHAN  ROLL NO: 2302CM06\n");
+
+    printf(MAG"WELCOME TO OUR PROJECT CREATED BY GROUP P14- SCI-FI-CALCULATOR\n"
+    RESET" We are \n"
+    " 1. Nishanth Kumaran    ROLL NO: 2301PH12\n"
+    " 2. MANISH KUMAR REDDY   ROLL NO:2301MC06\n"
+    " 3. AWADHESH KUMAR SHARMA    ROLL NO: 2301ME63 \n"
+    " 4. MITALI KUMARI   ROLL NO: 2301ME33\n"
+    " 5. SAGAR KUMAR  ROLL NO: 2301MM28\n"
+    " 6. LAKSH KUMAR SISODIYA   ROLL NO: 2302MC05\n 7."
+    " KIRAN KUMAR BOMMU  ROLL NO: 2302VL03\n"
+    " 8. SARAVAN KUMAR NALLAPU  ROLL NO: 2302ST07\n"
+    " 9. SONALI KUMARI  ROLL NO: 2301EC31\n"
+    " 10. AFIFAH KHAN  ROLL NO: 2302CM06\n");
+    printf(BLU"-------------------------------------------------\n");
     printf("-------------------------------------------------\n");
-    printf("-------------------------------------------------\n");
-    printf("Select the type of calculation you wish\n Enter 1 for Resistor color code\n Enter 2 for Capacitor Color code\n Enter 3 for AgeCalculation Feature\n Enter 4 for Operating two matrices\n Enter 5 for Finding Determinant\n Enter 6 for GPA Calculation\n Option : ");
+    printf(CYN"Select the type of calculation you wish\n"
+    RESET" Enter 1 for Resistor color code\n"
+    " Enter 2 for Capacitor Color code\n"
+    " Enter 3 for AgeCalculation Feature\n"
+    " Enter 4 for Operating two matrices\n"
+    " Enter 5 for Finding Determinant\n"
+    " Enter 6 for GPA Calculation\n"
+    " Enter 7 for GPA Calculation\n"
+    " Option : ");
     // we can also do integration,differentiation,all type of calculation,
     //  age
     int option;
@@ -404,9 +491,17 @@ int main()
         break;
 
     case 5:
+        int n;
         printf("Enter the size of the square matrix\n");
-        scanf("%d", &sizeM);
-
+        scanf("%d", &n);                
+        printf("Enter the matrix: \n");
+        int **arr;
+        arr = INITnxn(arr, n);
+        FOR(n) for (int j = 0; j < n; j++) scanf("%d",&arr[i][j]);
+        printf("MATRIX IS:\n");
+        _print(arr, n, n); 
+        printf("Determinant is :%d\n", determinant(arr, n));
+        DELnxn(arr, n);
         break;
 
     case 6:
