@@ -454,7 +454,7 @@ int _server_run(struct _server *self, char *host, int port, int debug)
         // Send response
         send(client_sock, response_raw, response.length, 0);
 
-        pos = findchar(response_raw + 9, ' ');
+        pos = findchar(response_raw + 9, ' '); // 9 for HTTP/1.1 
         response_raw[pos + 9] = '\0';
         if (flag_not_found == 1)
             printf(BLU "%s" RESET " - " RED "%s" RESET " - " GRN "%s" RESET " \"%s\"\n", client_ip, response_raw + 9, headers.head->data->key, headers.head->data->value);
