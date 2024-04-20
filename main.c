@@ -1,23 +1,29 @@
 #include <stdio.h>
 // #include <conio.h>
-// #include <math.h>
+#include <math.h>
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#define PI 3.1415
+#define PI 3.1415926536
 #define SIZE 10
-#define RED   "\x1B[31m"
-#define GRN   "\x1B[32m"
-#define YEL   "\x1B[33m"
-#define BLU   "\x1B[34m"
-#define MAG   "\x1B[35m"
-#define CYN   "\x1B[36m"
-#define WHT   "\x1B[37m"
+#define RED "\x1B[31m"
+#define GRN "\x1B[32m"
+#define YEL "\x1B[33m"
+#define BLU "\x1B[34m"
+#define MAG "\x1B[35m"
+#define CYN "\x1B[36m"
+#define WHT "\x1B[37m"
 #define RESET "\x1B[0m"
 #define FOR(count) for (int i = 0; i < count; i++)
-#define DELnxn(arr, n) FOR(n) free(arr[i]); free(arr);
-#define INITnxn(arr, n) (int **)malloc(n * sizeof(int *)); FOR(n) arr[i] = (int *)malloc(n * sizeof(int));
+#define DELnxn(arr, n) \
+    FOR(n)             \
+    free(arr[i]);      \
+    free(arr);
+#define INITnxn(arr, n)                \
+    (int **)malloc(n * sizeof(int *)); \
+    FOR(n)                             \
+    arr[i] = (int *)malloc(n * sizeof(int));
 int resistance;
 int MatrixOpn;
 // double addition(double a, ...){
@@ -33,34 +39,130 @@ void addition();
 void subtraction();
 void multipLication();
 void division();
-void factorial();
-void modulus();
-void square();
-void squareroot();
-void cube();
-void SIN();
-void COS();
-void TAN();
-void SININV();
-void COSINV();
-void TANINV();
+
+void factorial(double);
+void modulus(double);
+void square(double);
+void squareroot(double);
+void cube(double);
+void SIN(double);
+void COS(double);
+void TAN(double);
+void SININV(double);
+void COSINV(double);
+void TANINV(double);
+
+// Function to calculate factorial
+void factorial(double x)
+{
+    double result = 1.0;
+    int i;
+
+    if (x < 0)
+    {
+        printf("Factorial is not defined for negative numbers.\n");
+        return;
+    }
+
+    for (i = 2; i <= x; ++i)
+    {
+        result *= i;
+    }
+
+    printf("Factorial of %.0f: %.0f\n", x, result);
+}
+
+// Function to calculate modulus
+void modulus(double x)
+{
+    double result = fabs(x);
+    printf("Modulus of %.2f: %.2f\n", x, result);
+}
+
+// Function to calculate square
+void square(double x)
+{
+    double result = x * x;
+    printf("Square of %.2f: %.2f\n", x, result);
+}
+
+// Function to calculate square root
+void squareroot(double x)
+{
+    if (x < 0)
+    {
+        printf("Square root is not defined for negative numbers.\n");
+        return;
+    }
+
+    double result = sqrt(x);
+    printf("Square root of %.2f: %.2f\n", x, result);
+}
+
+// Function to calculate cube
+void cube(double x)
+{
+    double result = x * x * x;
+    printf("Cube of %.2f: %.2f\n", x, result);
+}
+// Function to calculate sine
+void SIN(double x)
+{
+    printf("SIN(%.2f) = %.6f\n", x, sin(x * PI / 180));
+}
+
+// Function to calculate cosine
+void COS(double x)
+{
+    printf("COS(%.2f) = %.6f\n", x, cos(x * PI / 180));
+}
+
+// Function to calculate tangent
+void TAN(double x)
+{
+    printf("TAN(%.2f) = %.6f\n", x, tan(x * PI / 180));
+}
+
+// Function to calculate inverse sine
+void SININV(double x)
+{
+    printf("SININV(%.6f) = %.2f\n", x, asin(x) * 180 / PI);
+}
+
+// Function to calculate inverse cosine
+void COSINV(double x)
+{
+    printf("COSINV(%.6f) = %.2f\n", x, acos(x) * 180 / PI);
+}
+
+// Function to calculate inverse tangent
+void TANINV(double x)
+{
+    printf("TANINV(%.6f) = %.2f\n", x, atan(x) * 180 / PI);
+}
 
 // void _print_nxn(int **arr, int n){}
-void _print_mxn(int **arr, int m, int n){
+void _print_mxn(int **arr, int m, int n)
+{
     printf("[");
-    FOR(m-1){
+    FOR(m - 1)
+    {
         printf("[");
-        for (int j = 0; j < n-1; j++) printf("%d, ",arr[i][j]);
-        printf("%d]\n ", arr[i][n-1]);
+        for (int j = 0; j < n - 1; j++)
+            printf("%d, ", arr[i][j]);
+        printf("%d]\n ", arr[i][n - 1]);
     }
     printf("[");
-    for (int j = 0; j < n-1; j++) printf("%d, ",arr[n-1][j]);
-    printf("%d]]\n\n", arr[n-1][n-1]);
+    for (int j = 0; j < n - 1; j++)
+        printf("%d, ", arr[n - 1][j]);
+    printf("%d]]\n\n", arr[n - 1][n - 1]);
 }
-void _print_n(int *arr, int n){
+void _print_n(int *arr, int n)
+{
     printf("[");
-    FOR(n-1) printf("%d, ",arr[i]);
-    printf("%d]\n ", arr[n-1]);
+    FOR(n - 1)
+    printf("%d, ", arr[i]);
+    printf("%d]\n ", arr[n - 1]);
 }
 // #define _print(arr, n, ...) _Generic((arr), \
 //     int *: _print_n, \
@@ -70,26 +172,33 @@ void _print_n(int *arr, int n){
 // )(arr, n, ##__VA_ARGS__)
 #define _print(arr, ...) _Generic(arr, int **: _print_mxn, int *: _print_n)(arr, __VA_ARGS__)
 
-int determinant(int **arr, int n){
-    int result=0;
-    if (n>=2){
-        FOR(n){
+int determinant(int **arr, int n)
+{
+    int result = 0;
+    if (n >= 2)
+    {
+        FOR(n)
+        {
             int **tmp;
-            int _n = n-1;
+            int _n = n - 1;
             tmp = INITnxn(tmp, _n);
-            for (int j = 1; j < n; j++){
-                for (int k = 0; k < n; k++){
-                    if(i==k) continue;
-                    tmp[j-1][k-((i>k)?0:1)] = arr[j][k];
+            for (int j = 1; j < n; j++)
+            {
+                for (int k = 0; k < n; k++)
+                {
+                    if (i == k)
+                        continue;
+                    tmp[j - 1][k - ((i > k) ? 0 : 1)] = arr[j][k];
                 }
             }
-            result += (determinant(tmp, _n)*arr[0][i])*((i%2)?-1:1);
+            result += (determinant(tmp, _n) * arr[0][i]) * ((i % 2) ? -1 : 1);
             DELnxn(tmp, _n);
         }
-    }else result = arr[0][0];
+    }
+    else
+        result = arr[0][0];
     return result;
 }
-
 
 int Resistorcolorcode(int R)
 {
@@ -392,30 +501,28 @@ int main()
     float multipliers[] = {0, 1, 2, 3, 4, 5, 6, 7};
     int toleranceValues[] = {20, 1, 2, 3, 4, 5, 6, 7, 8, 9}; // Tolerance values in percent
 
-
-    printf(MAG"WELCOME TO OUR PROJECT CREATED BY GROUP P14- SCI-FI-CALCULATOR\n"
-    RESET" We are \n"
-    " 1. Nishanth Kumaran    ROLL NO: 2301PH12\n"
-    " 2. MANISH KUMAR REDDY   ROLL NO:2301MC06\n"
-    " 3. AWADHESH KUMAR SHARMA    ROLL NO: 2301ME63 \n"
-    " 4. MITALI KUMARI   ROLL NO: 2301ME33\n"
-    " 5. SAGAR KUMAR  ROLL NO: 2301MM28\n"
-    " 6. LAKSH KUMAR SISODIYA   ROLL NO: 2302MC05\n 7."
-    " KIRAN KUMAR BOMMU  ROLL NO: 2302VL03\n"
-    " 8. SARAVAN KUMAR NALLAPU  ROLL NO: 2302ST07\n"
-    " 9. SONALI KUMARI  ROLL NO: 2301EC31\n"
-    " 10. AFIFAH KHAN  ROLL NO: 2302CM06\n");
-    printf(BLU"-------------------------------------------------\n");
+    printf(MAG "WELCOME TO OUR PROJECT CREATED BY GROUP P14- SCI-FI-CALCULATOR\n" RESET " We are \n"
+               " 1. Nishanth Kumaran    ROLL NO: 2301PH12\n"
+               " 2. MANISH KUMAR REDDY   ROLL NO:2301MC06\n"
+               " 3. AWADHESH KUMAR SHARMA    ROLL NO: 2301ME63 \n"
+               " 4. MITALI KUMARI   ROLL NO: 2301ME33\n"
+               " 5. SAGAR KUMAR  ROLL NO: 2301MM28\n"
+               " 6. LAKSH KUMAR SISODIYA   ROLL NO: 2302MC05\n 7."
+               " KIRAN KUMAR BOMMU  ROLL NO: 2302VL03\n"
+               " 8. SARAVAN KUMAR NALLAPU  ROLL NO: 2302ST07\n"
+               " 9. SONALI KUMARI  ROLL NO: 2301EC31\n"
+               " 10. AFIFAH KHAN  ROLL NO: 2302CM06\n");
+    printf(BLU "-------------------------------------------------\n");
     printf("-------------------------------------------------\n");
-    printf(CYN"Select the type of calculation you wish\n"
-    RESET" Enter 1 for Resistor color code\n"
-    " Enter 2 for Capacitor Color code\n"
-    " Enter 3 for AgeCalculation Feature\n"
-    " Enter 4 for Operating two matrices\n"
-    " Enter 5 for Finding Determinant\n"
-    " Enter 6 for GPA Calculation\n"
-    " Enter 7 for GPA Calculation\n"
-    " Option : ");
+    printf(CYN "Select the type of calculation you wish\n" RESET " Enter 1 for Resistor color code\n"
+               " Enter 2 for Capacitor Color code\n"
+               " Enter 3 for AgeCalculation Feature\n"
+               " Enter 4 for Operating two matrices\n"
+               " Enter 5 for Finding Determinant\n"
+               " Enter 6 for GPA Calculation\n"
+               " Enter 7 for GPA Calculation\n"
+               " Enter 8 for CORE MATH Methods\n"
+               " Option : ");
     // we can also do integration,differentiation,all type of calculation,
     //  age
     int option;
@@ -493,13 +600,15 @@ int main()
     case 5:
         int n;
         printf("Enter the size of the square matrix\n");
-        scanf("%d", &n);                
+        scanf("%d", &n);
         printf("Enter the matrix: \n");
         int **arr;
         arr = INITnxn(arr, n);
-        FOR(n) for (int j = 0; j < n; j++) scanf("%d",&arr[i][j]);
+        FOR(n)
+        for (int j = 0; j < n; j++)
+            scanf("%d", &arr[i][j]);
         printf("MATRIX IS:\n");
-        _print(arr, n, n); 
+        _print(arr, n, n);
         printf("Determinant is :%d\n", determinant(arr, n));
         DELnxn(arr, n);
         break;
@@ -545,7 +654,25 @@ int main()
         free(obtainedgrades);
         free(credits);
         break;
+    case 8:
+        printf(GRN "\nBasic math functions\n" RESET
+                   "x : ");
+        int x;
+        scanf("%d", &x);
 
+        SIN(x);
+        COS(x);
+        TAN(x);
+        SININV(x);
+        COSINV(x);
+        TANINV(x);
+
+        factorial(x);
+        modulus(x);
+        square(x);
+        squareroot(x);
+        cube(x);
+        break;
     default:
         printf("You have entered an Invalid Input.\n");
         break;
