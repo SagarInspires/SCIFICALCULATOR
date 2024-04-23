@@ -97,19 +97,23 @@ struct resistorcolor
     int tolerance;
 };
 struct resistorcolor getResistorcolorcode(int);
-void home(server *self, str *response, list *headers, str *content_buffer){
+void home(server *self, str *response, list *headers, str *content_buffer)
+{
     send_file(response, "templates/index.html");
 }
-void ResistorcolorcodeGET(server *self, str *response, list *headers, str *content_buffer){
+void ResistorcolorcodeGET(server *self, str *response, list *headers, str *content_buffer)
+{
     send_file(response, "templates/Resistorcolorcode.html");
 }
-void ResistorcolorcodePOST(server *self, str *response, list *headers, str *content_buffer){
+void ResistorcolorcodePOST(server *self, str *response, list *headers, str *content_buffer)
+{
     char body[content_buffer->length];
     content_buffer->raw(content_buffer, body);
     int value;
 
     // Search for the "value" key and extract the integer following it
-    if (sscanf(body, "{\"value\":%d}", &value) != 1) {
+    if (sscanf(body, "{\"value\":%d}", &value) != 1)
+    {
         // Error handling if sscanf fails
         printf("Error: Unable to extract value from JSON string.\n");
         response->append(response, "HTTP/1.1 400 ERROR\r\n\r\n");
@@ -122,20 +126,24 @@ void ResistorcolorcodePOST(server *self, str *response, list *headers, str *cont
     response->append(response, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n");
     response->append_format(response, "{\"colors\": [%d, %d, %d]}", result.first, result.second, result.multiplier);
 }
-void send_static(server *self, str *response, list *headers, str *content_buffer){
-    int pos = findchar(headers->head->data->value, ' '); 
+void send_static(server *self, str *response, list *headers, str *content_buffer)
+{
+    int pos = findchar(headers->head->data->value, ' ');
     char url[pos];
-    for (int i = 1; i < pos; i++) url[i-1] = headers->head->data->value[i];
-    url[pos-1] = '\0';
-    send_file(response, url);   
+    for (int i = 1; i < pos; i++)
+        url[i - 1] = headers->head->data->value[i];
+    url[pos - 1] = '\0';
+    send_file(response, url);
 }
-void send_logo(server *self, str *response, list *headers, str *content_buffer){
+void send_logo(server *self, str *response, list *headers, str *content_buffer)
+{
     str header_buffer = String();
     header_buffer.append(&header_buffer, "HTTP/1.1 200 OK\r\n");
     header_buffer.append(&header_buffer, "Accept-Ranges: bytes\r\n");
     FILE *fptr;
     fptr = fopen("static/favicon.ico", "rb");
-    if (fptr == NULL) {
+    if (fptr == NULL)
+    {
         response->append(response, "HTTP/1.1 404 NOT FOUND\r\n\r\n");
         response->append(response, "ERROR : 404 NOT FOUND");
         fclose(fptr);
@@ -147,10 +155,11 @@ void send_logo(server *self, str *response, list *headers, str *content_buffer){
     char raw_header[header_buffer.length];
     header_buffer.raw(&header_buffer, raw_header);
     header_buffer.free(&header_buffer);
-    send_file_with_header(response, "static/favicon.ico", raw_header);   
+    send_file_with_header(response, "static/favicon.ico", raw_header);
     fclose(fptr);
 }
-void stop_server(server *self, str *response, list *headers, str *content_buffer){
+void stop_server(server *self, str *response, list *headers, str *content_buffer)
+{
     self->stop(self);
     response->append(response, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n");
     response->append(response, "{\"stop\": true}");
@@ -1575,6 +1584,236 @@ int math_calcu()
     }
 }
 
+// prime number functions
+void PrimeFactorization(int num)
+{
+    printf("Prime factors of the number : ");
+    for (int i = 2; num > 1; i++)
+    {
+        while (num % i == 0)
+        {
+            printf("%d ", i);
+            num = num / i;
+        }
+    }
+}
+// primality test function
+int Mulmod(long long a, long long b, long long mod)
+{
+    long long x = 0, y = a % mod;
+    while (b > 0)
+    {
+        if (b % 2 == 1)
+        {
+            x = (x + y) % mod;
+        }
+        y = (y * 2) % mod;
+        b /= 2;
+    }
+    return (x % mod);
+}
+int modulo(long long base, long long exponent, long long mod)
+{
+    long long x = 1;
+    long long y = base;
+    while (exponent > 0)
+    {
+        if (exponent % 2 == 1)
+        {
+            x = (x * y) % mod;
+        }
+        y = (y * y) % mod;
+        exponent = exponent / 2;
+    }
+    return (x % mod);
+}
+int Primalitytest(long long p, int iteration)
+{
+    int i;
+    long long s;
+    if (p < 2)
+    {
+        return 0;
+    }
+    if (p != 2 && p % 2 == 0)
+    {
+        return 0;
+    }
+    s = p - 1;
+    while (s % 2 == 0)
+    {
+        s /= 2;
+    }
+    for (i = 0; i < iteration; i++)
+    {
+        long long a = rand() % (p - 1) + 1, temp = s;
+        long long mod = modulo(a, temp, p);
+        while (temp != p - 1 && mod != 1 && mod != p - 1)
+        {
+            mod = Mulmod(mod, mod, p);
+            temp *= 2;
+        }
+        if (mod != p - 1 && temp % 2 == 0)
+        {
+            printf("not prime ");
+        }
+    }
+    printf("prime ");
+}
+// for next & previous prime
+int isprime(int n)
+{
+    int i, temp = 0;
+    for (i = 2; i <= (n / 2); i++)
+    {
+        if (n % i == 0)
+        {
+            temp++;
+            break;
+        }
+    }
+    if (temp != 0 && n != 1)
+    {
+        return (0);
+    }
+    else
+        return (1);
+}
+void Nextprime(int n)
+{
+    int prime = n, check = 0, t;
+    while (check != 1)
+    {
+        prime++;
+        t = isprime(prime);
+        if (t == 1)
+        {
+            printf("\n Prime number after this number is : %d", prime);
+            break;
+        }
+    }
+}
+void Previousprime(int n)
+{
+    int prime = n, check = 0, t;
+    while (check != 1)
+    {
+        prime--;
+        t = isprime(prime);
+        if (t == 1)
+        {
+            printf("\n Prime number before this number is :%d", prime);
+            break;
+        }
+    }
+}
+// prime number functions ended
+// bitwise operator functions started
+void bitwise_and(int num1, int num2)
+{
+    int a[10], i;
+    int res = num1 & num2;
+    for (i = 0; res > 0; i++)
+    {
+        a[i] = res % 2;
+        res = res / 2;
+    }
+    printf("\n and operation result is");
+    int z = 0;
+    for (i = i - 1; i >= 0; i--)
+    {
+        printf("%d", a[i]);
+        z++;
+    }
+    printf("\n");
+    if (z == 0)
+        printf(" 0 \n");
+}
+void bitwise_or(int num1, int num2)
+{
+    int a[10], i;
+    int res = num1 | num2;
+    for (i = 0; res > 0; i++)
+    {
+        a[i] = res % 2;
+        res = res / 2;
+    }
+    printf("\n or operation result is");
+    int z = 0;
+    for (i = i - 1; i >= 0; i--)
+    {
+        printf("%d ", a[i]);
+        z++;
+    }
+    printf("\n");
+    if (z == 0)
+        printf(" 0 \n");
+}
+void bitwise_xor(int num1, int num2)
+{
+    int a[10], i;
+    int res = num1 ^ num2;
+    for (i = 0; res > 0; i++)
+    {
+        a[i] = res % 2;
+        res = res / 2;
+    }
+    printf("\n xor operation result is");
+    int z = 0;
+    for (i = i - 1; i >= 0; i--)
+    {
+        printf("%d ", a[i]);
+        z++;
+    }
+    printf("\n");
+    if (z == 0)
+        printf(" 0 \n");
+}
+void bitwise_lshift(int num1, int num2)
+{
+    int a[10], i;
+    int res = num1 << num2;
+    for (i = 0; res > 0; i++)
+    {
+        a[i] = res % 2;
+        res = res / 2;
+    }
+    printf("\n lshift operation result is");
+    int z = 0;
+    for (i = i - 1; i >= 0; i--)
+    {
+        printf("%d", a[i]);
+        z++;
+    }
+    printf("\n");
+    if (z == 0)
+        printf(" 0 \n");
+}
+void bitwise_rshift(int num1, int num2)
+{
+    int binaryNum[10], i;
+    int res = num1 >> num2;
+    i = 0;
+    while (res > 0)
+    {
+        // storing remainder in binary array
+        binaryNum[i] = res % 2;
+        res = res / 2;
+        i++;
+    }
+
+    // printing binary array in reverse order
+    int z = 0;
+    for (int j = i - 1; j >= 0; j--)
+    {
+
+        printf("\n r shift operation result is %d", binaryNum[j]);
+        z++;
+    }
+    if (z == 0)
+        printf("\nrshift operation result is 0");
+}
+
 // main function
 int main()
 {
@@ -1613,8 +1852,8 @@ int main()
                " 3. AWADHESH KUMAR SHARMA    ROLL NO: 2301ME63 \n"
                " 4. MITALI KUMARI   ROLL NO: 2301ME33\n"
                " 5. SAGAR KUMAR  ROLL NO: 2301MM28\n"
-               " 6. LAKSH KUMAR SISODIYA   ROLL NO: 2302MC05\n 7."
-               " KIRAN KUMAR BOMMU  ROLL NO: 2302VL03\n"
+               " 6. LAKSH KUMAR SISODIYA   ROLL NO: 2302MC05\n"
+               " 7. KIRAN KUMAR BOMMU  ROLL NO: 2302VL03\n"
                " 8. SARAVAN KUMAR NALLAPU  ROLL NO: 2302ST07\n"
                " 9. SONALI KUMARI  ROLL NO: 2301EC31\n"
                " 10. AFIFAH KHAN  ROLL NO: 2302CM06\n");
@@ -1626,12 +1865,14 @@ int main()
                " Enter 4 for Operating two matrices\n"
                " Enter 5 for Finding Determinant\n"
                " Enter 6 for GPA Calculation\n"
-               " Enter 7 for GPA Calculation\n"
+               " Enter 7 ...\n"
                " Enter 8 for CORE MATH Methods\n"
                " Enter 9 for statistics\n"
                " Enter 10 for Physics\n"
                " Enter 11 for Electronic\n"
                " Enter 12 for MATH Calculator\n"
+               " Enter 13 for Prime Number Functions \n"
+               " Enter 14 for Bitwise Operations \n"
                " Enter 99 for BETA GUI (AT PRESENT ONE FUNCTION IS WORKING)\n"
                " Option : ");
     // we can also do integration,differentiation,all type of calculation,
@@ -1764,6 +2005,9 @@ int main()
         free(courses);
         free(obtainedgrades);
         free(credits);
+        break;
+    case 7:
+        // TODO: 
         break;
     case 8:
         printf(GRN "\nBasic math functions\n" RESET
@@ -2029,12 +2273,33 @@ int main()
     case 12:
         math_calcu();
         break;
+    case 13 :
+        int i;
+        printf(" Enter a integer \n");
+        scanf("%d",&i);
+        PrimeFactorization(i);
+        Primalitytest(i,5);
+        Previousprime(i);
+        Nextprime(i);
+        break;
+   case 14 : 
+        int num1,num2;
+        printf("Enter first number in decimal system \n");
+        scanf("%d",&num1);
+        printf("Enter second number in decimal system \n");
+        scanf("%d",&num2);
+        bitwise_and(num1,num2);
+        bitwise_or(num1,num2);
+        bitwise_xor(num1,num2);
+        bitwise_lshift(num1,num2);
+        bitwise_rshift(num1,num2);
+        break;
     case 99:
-        #ifdef _WIN32
+#ifdef _WIN32
         system("cls");
-        #else
+#else
         system("clear");
-        #endif
+#endif
         app.run(&app, HOST, PORT, DEBUG);
         break;
     default:
@@ -2213,10 +2478,10 @@ double power_of_2(double x)
     return pow(2, x);
 }
 
-
-struct resistorcolor getResistorcolorcode(int R){   
+struct resistorcolor getResistorcolorcode(int R)
+{
     struct resistorcolor result;
-    
+
     // getting the 1st digit
     int digit1 = R;
     while (digit1 >= 10)
