@@ -254,6 +254,62 @@ void TANINV(double x)
     printf("TANINV(%.6f) = %.2f\n", x, atan(x) * 180 / PI);
 }
 
+// Function to calculate exponential of a number
+void exponential(double x) {
+    printf("exp(%.6f) = %.6f\n", x, exp(x));
+}
+
+// Function to calculate natural logarithm of a number
+void natural_log(double x) {
+    printf("log(%.6f) = %.6f\n", x, log(x));
+}
+
+// Function to calculate base 10 logarithm of a number
+void log_base_10(double x) {
+    printf("log10(%.6f) = %.6f\n", x, log10(x));
+}
+
+// Function to calculate x raised to the power of y
+void power(double x, double y) {
+    printf("%.6f raised to the power %.6f = %.6f\n", x, y, pow(x, y));
+}
+
+// Function to round a number to the nearest integer
+void round_nearest(double x) {
+    printf("round(%.6f) = %.0f\n", x, round(x));
+}
+
+// Function to round a number down to the nearest integer
+void round_down(double x) {
+    printf("floor(%.6f) = %.0f\n", x, floor(x));
+}
+
+// Function to round a number up to the nearest integer
+void round_up(double x) {
+    printf("ceil(%.6f) = %.0f\n", x, ceil(x));
+}
+
+// Function to calculate hyperbolic sine
+void hyperbolicSine(double x) {
+    printf("sinh(%.6f) = %.6f\n", x, sinh(x));
+}
+
+// Function to calculate hyperbolic cosine
+void hyperbolicCosine(double x) {
+    printf("cosh(%.6f) = %.6f\n", x, cosh(x));
+}
+
+// Function to calculate hyperbolic tangent
+void hyperbolicTangent(double x) {
+    printf("tanh(%.6f) = %.6f\n", x, tanh(x));
+}
+
+// Function to generate a random number in a specified range
+void generate_random(int min, int max) {
+    int random_number = min + rand() % (max - min + 1);
+    printf("Random number between %d and %d: %d\n", min, max, random_number);
+}
+
 double mean(int data[], int n)
 {
     double sum = 0;
@@ -1865,7 +1921,7 @@ int main()
                " Enter 4 for Operating two matrices\n"
                " Enter 5 for Finding Determinant\n"
                " Enter 6 for GPA Calculation\n"
-               " Enter 7 ...\n"
+               " Enter 7 for random number\n"
                " Enter 8 for CORE MATH Methods\n"
                " Enter 9 for statistics\n"
                " Enter 10 for Physics\n"
@@ -2007,7 +2063,21 @@ int main()
         free(credits);
         break;
     case 7:
-        // TODO: 
+        printf(GRN "\nRandom Number generator\n" RESET
+                   "How many numbers you want to generate : ");
+        int _x, _min, _max;
+        scanf("%d", &_x);
+        printf("min: ");
+        scanf("%d", &_min);
+        printf("max: ");
+        scanf("%d", &_max);
+        
+        for (int i = 0; i < _x; i++)
+        {
+            printf("%d\t", i);
+            generate_random(_min, _max);
+        }
+        
         break;
     case 8:
         printf(GRN "\nBasic math functions\n" RESET
@@ -2027,6 +2097,19 @@ int main()
         square(x);
         squareroot(x);
         cube(x);
+
+        exponential(x);
+        natural_log(x);
+        log_base_10(x);
+        power(PI, x);
+        round_nearest(x);
+        round_down(x);
+        round_up(x);
+
+        hyperbolicSine(x);
+        hyperbolicCosine(x);
+        hyperbolicTangent(x);
+
         break;
     case 9:
         printf("Enter the number of elements in the dataset: ");
